@@ -4,9 +4,10 @@ const Task = require('../models/taskModel');
 
 // Controller to get all tasks for a specific user
 const getAllTasks = async (req, res) => {
+
     try {
         const userId = req.user.id; // This assumes that the user ID is stored in the req.user object after the authentication middleware
-        const tasks = await Task.find({ user: userId });
+        const tasks = await Task.find({ user: userId }).populate('category').populate("user");
         res.json(tasks);
     } catch (err) {
         res.status(500).json({ error: 'Failed to fetch tasks' });
@@ -17,7 +18,7 @@ const getAllTasks = async (req, res) => {
 const getIncompleteTasks = async (req, res) => {
     try {
         const userId = req.user.id;
-        const incompleteTasks = await Task.find({ user: userId, completed: false });
+        const incompleteTasks = await Task.find({ user: userId, completed: false }).populate('category').populate("user");
         res.json(incompleteTasks);
     } catch (err) {
         res.status(500).json({ error: 'Failed to fetch incomplete tasks' });
@@ -28,7 +29,8 @@ const getIncompleteTasks = async (req, res) => {
 const getCompletedTasks = async (req, res) => {
     try {
         const userId = req.user.id;
-        const completedTasks = await Task.find({ user: userId, completed: true });
+        console.log(userId);
+        const completedTasks = await Task.find({ user: userId, completed: true }).populate('category').populate("user");
         res.json(completedTasks);
     } catch (err) {
         res.status(500).json({ error: 'Failed to fetch completed tasks' });
@@ -38,13 +40,15 @@ const getCompletedTasks = async (req, res) => {
 // Controller to create a new task for a specific user
 const createTask = async (req, res) => {
     try {
+        console.log(req.category)
         const userId = req.user.id;
-        const { title, description, category } = req.body;
+        const categoryId = req.category._id;
+        const { title, description } = req.body;
 
         const newTask = await Task.create({
             title,
             description,
-            category,
+            category: categoryId,
             user: userId,
         });
 
@@ -61,11 +65,7 @@ const updateTask = async (req, res) => {
         const userId = req.user.id;
         const { title, description, completed, category } = req.body;
 
-        const updatedTask = await Task.findOneAndUpdate(
-            { _id: taskId, user: userId },
-            { title, description, completed, category },
-            { new: true }
-        );
+        const updatedTask = await Task.findByIdAndUpdate(taskId, req.body);
 
         if (!updatedTask) {
             return res.status(404).json({ error: 'Task not found or unauthorized' });

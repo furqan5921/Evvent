@@ -1,8 +1,9 @@
 import React from 'react'
+import DataMap from './DataMap'
 
 const Tasks = () => {
   return (
-    <div>Tasks</div>
+    <DataMap param={"tasks"}/>
   )
 }
 

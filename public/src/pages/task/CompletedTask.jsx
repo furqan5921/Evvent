@@ -1,9 +1,8 @@
-import React from 'react'
+import React from "react";
+import DataMap from "./DataMap";
 
 const CompletedTask = () => {
-  return (
-    <div>CompletedTask</div>
-  )
-}
+  return <DataMap param={"tasks/completed"} />;
+};
 
-export default CompletedTask
+export default CompletedTask;

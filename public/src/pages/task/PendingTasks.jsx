@@ -1,9 +1,8 @@
-import React from 'react'
+import React from "react";
+import DataMap from "./DataMap";
 
 const PendingTasks = () => {
-  return (
-    <div>PendingTasks</div>
-  )
-}
+  return <DataMap param={"tasks/incomplete"} />;
+};
 
-export default PendingTasks
+export default PendingTasks;

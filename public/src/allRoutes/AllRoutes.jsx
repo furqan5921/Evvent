@@ -6,15 +6,46 @@ import Signup from "../pages/auth/Signup";
 import Tasks from "../pages/task/Tasks";
 import CompletedTask from "../pages/task/CompletedTask";
 import PendingTasks from "../pages/task/PendingTasks";
+import CreateTask from "../pages/task/CreateTask";
+import PrivateComponent from "./PrivateRoutes";
 
 const AllRoutes = () => {
   return (
     <Routes>
-      <Route path="/" element={<Tasks />} />
-      <Route path="/completed" element={<CompletedTask />} />
-      <Route path="/pending" element={<PendingTasks />} />
+      <Route
+        path="/"
+        element={
+          <PrivateComponent>
+            <Tasks />
+          </PrivateComponent>
+        }
+      />
+      <Route
+        path="/completed"
+        element={
+          <PrivateComponent>
+            <CompletedTask />
+          </PrivateComponent>
+        }
+      />
+      <Route
+        path="/pending"
+        element={
+          <PrivateComponent>
+            <PendingTasks />
+          </PrivateComponent>
+        }
+      />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
+      <Route
+        path="/create"
+        element={
+          <PrivateComponent>
+            <CreateTask />
+          </PrivateComponent>
+        }
+      />
     </Routes>
   );
 };

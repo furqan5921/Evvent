@@ -39,6 +39,7 @@ const loginUser = async (req, res) => {
             res.status(404).send("User Not Found")
         }
         const validatePassword = await argon2.verify(user.password, password);
+
         if (validatePassword) {
             const { _id, email } = user;
 
@@ -49,7 +50,7 @@ const loginUser = async (req, res) => {
             });
         }
         else {
-            res.status(404).send("Password is Not Mathching")
+            res.status(401).send("Password is Not Mathching")
         }
     } catch (err) {
         res.status(400).send(err.message)
@@ -63,15 +64,15 @@ const getaUser = async (req, res) => {
     const { id } = req.params;
     validateMongodbId(id, res);
     try {
-      const user = await User.findById(id);
-      if (user) {
-        res.status(200).send(user);
-      } else {
-        res.status(404).send("User Not Found"); 
-      }
+        const user = await User.findById(id).populate('tasks');
+        if (user) {
+            res.status(200).send(user);
+        } else {
+            res.status(404).send("User Not Found");
+        }
     } catch (err) {
-      res.status(500).send(err.message); 
+        res.status(500).send(err.message);
     }
-  };
+};
 
 module.exports = { createUser, loginUser, getaUser }
