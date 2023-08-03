@@ -20,7 +20,7 @@ const DataMap = ({ param }) => {
   const getData = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`http://localhost:8081/${param}`, {
+      const res = await axios.get(`https://evvent-backend.onrender.com/${param}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

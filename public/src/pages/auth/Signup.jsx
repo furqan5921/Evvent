@@ -23,13 +23,13 @@ const Signup = () => {
   const navigate = useNavigate();
   const toast = useToast();
   const [signinData, setSigninData] = useState(initialData);
-  console.log(signinData);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
       const res = await axios.post(
-        "http://localhost:8081/users/signup",
+        "https://evvent-backend.onrender.com/users/signup",
         signinData
       );
 

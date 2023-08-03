@@ -27,7 +27,7 @@ const SingleTask = ({
   const token = localStorage.getItem("token");
   const handleDelete = async (id) => {
     try {
-      const res = await axios.delete(`http://localhost:8081/tasks/${id}`, {
+      const res = await axios.delete(`https://evvent-backend.onrender.com/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -50,7 +50,7 @@ const SingleTask = ({
   const handleUpdate = async (id) => {
     try {
       const res = await axios.patch(
-        `http://localhost:8081/tasks/${id}`,
+        `https://evvent-backend.onrender.com/tasks/${id}`,
         {
           completed: !isCompleted,
         },
