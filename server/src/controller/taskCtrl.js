@@ -61,11 +61,12 @@ const createTask = async (req, res) => {
 // Controller to update a task for a specific user
 const updateTask = async (req, res) => {
     try {
+
         const taskId = req.params.taskId;
         const userId = req.user.id;
         const { title, description, completed, category } = req.body;
 
-        const updatedTask = await Task.findByIdAndUpdate(taskId, req.body);
+        const updatedTask = await Task.findByIdAndUpdate(taskId, req.body).populate('category').populate("user");
 
         if (!updatedTask) {
             return res.status(404).json({ error: 'Task not found or unauthorized' });

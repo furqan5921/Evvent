@@ -8,6 +8,14 @@ const DataMap = ({ param }) => {
   const token = localStorage.getItem("token");
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
+  // const handleDataChange = (updatedValue) => {
+  //   setData((prevData) => {
+  //     const updatedData = prevData.map((task) =>
+  //       task.id === updatedValue.id ? updatedValue : task
+  //     );
+  //     return updatedData;
+  //   });
+  // };
   console.log(data);
   const getData = async () => {
     setLoading(true);
@@ -38,6 +46,7 @@ const DataMap = ({ param }) => {
             md: "repeat(2,1fr)",
             lg: "repeat(5,1fr)",
           }}
+          gap={5}
         >
           {data.map((el) => (
             <SingleTask
@@ -48,6 +57,7 @@ const DataMap = ({ param }) => {
               username={el.user.name}
               isCompleted={el.completed}
               id={el._id}
+              renderData={getData}
             />
           ))}
         </Grid>

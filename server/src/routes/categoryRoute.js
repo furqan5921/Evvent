@@ -3,7 +3,7 @@ const authMiddleware = require("../middlewares/authMiddleware");
 const { createCategory, getAllCategories, getAllCategoriesofUser } = require("../controller/categoryCtrl");
 
 const app = Router();
-app.get("/", getAllCategories)
+app.get("/", authMiddleware, getAllCategories)
 app.post("/post", authMiddleware, createCategory)
 app.post("/user", authMiddleware, getAllCategoriesofUser)
 

@@ -20,12 +20,12 @@ app.get('/completed', authMiddleware, getCompletedTasks);
 app.post('/post', authMiddleware, findCategoryById, createTask);
 
 // Route to update a task for a specific user
-app.put('/tasks/:taskId', authMiddleware, updateTask);
+app.put('/:taskId', authMiddleware, updateTask);
 
 // Route to mark a task as completed for a specific user
-app.patch('/tasks/:taskId', authMiddleware, updateTask);
+app.patch('/:taskId', authMiddleware, updateTask);
 
 // Route to delete a task for a specific user
-app.delete('/tasks/:taskId', authMiddleware, deleteTask);
+app.delete('/:taskId', authMiddleware, deleteTask);
 
 module.exports = app;

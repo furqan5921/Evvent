@@ -9,6 +9,7 @@ import {
   Stack,
   StackDivider,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
 import React from "react";
@@ -20,11 +21,61 @@ const SingleTask = ({
   username,
   isCompleted,
   id,
+  renderData,
 }) => {
+  const toast = useToast();
+  const token = localStorage.getItem("token");
+  const handleDelete = async (id) => {
+    try {
+      const res = await axios.delete(`http://localhost:8081/tasks/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (res.data) {
+        toast({
+          title: "Task deleted Succesfully.",
+          description:
+            "Congratulations! You have successfully deleted your task",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
+        renderData();
+
+        console.log(res.data);
+      }
+    } catch (error) {}
+  };
   const handleUpdate = async (id) => {
     try {
-      const res = await axios.patch(`http://localhost:8081/tasks/${id}`);
-    } catch (error) {}
+      const res = await axios.patch(
+        `http://localhost:8081/tasks/${id}`,
+        {
+          completed: !isCompleted,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (res.data) {
+        toast({
+          title: "Task updated Succesfully.",
+          description:
+            "Congratulations! You have successfully updated your task",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
+        renderData();
+
+        console.log(res.data);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
   };
   return (
     <GridItem>
@@ -46,7 +97,12 @@ const SingleTask = ({
               <Heading color="purple.600" size="xs" textTransform="uppercase">
                 Title : {title}
               </Heading>
-              <Text color="purple.600" pt="2" fontSize="sm">
+              <Text
+                textTransform={"capitalize"}
+                color="purple.600"
+                pt="2"
+                fontSize="sm"
+              >
                 Description : {description}
               </Text>
               <Text
@@ -109,6 +165,7 @@ const SingleTask = ({
                   bg: "purple.500",
                 }}
                 boxShadow="lg"
+                onClick={() => handleDelete(id)}
               >
                 Delete Task
               </Button>
